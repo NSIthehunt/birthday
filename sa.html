@@ -63,7 +63,7 @@
       try {
         await audio.play();
         // 잠시 후 정상 볼륨으로 올리기
-        setTimeout(() => { audio.volume = 0.5; }, 500);
+        setTimeout(() => { audio.volume = 0.2; }, 200);
       } catch(e) {
         console.log("자동 재생이 차단됨. 클릭 시 재생 가능.");
       }
