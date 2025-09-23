@@ -82,15 +82,15 @@
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
 
-      osc.type = "square";         // 소리 파형
-      osc.frequency.value = 1200;  // 소리 높이
-      gain.gain.value = 0.02;      // 소리 크기
+      osc.type = "square";         
+      osc.frequency.value = 1200;  
+      gain.gain.value = 0.02;      
 
       osc.connect(gain);
       gain.connect(audioCtx.destination);
 
       osc.start();
-      osc.stop(audioCtx.currentTime + 0.05); // 0.05초 소리
+      osc.stop(audioCtx.currentTime + 0.05);
     }
 
     usernameInput.addEventListener("input", playTypeSound);
@@ -98,18 +98,21 @@
 
     // 로그인 함수
     function login() {
-      const username = usernameInput.value.trim().toLowerCase();
+      const username = usernameInput.value.trim().toLowerCase(); // 소문자 변환
       const password = passwordInput.value.trim();
 
-      // 계정 데이터
+      // 계정 데이터 (소문자로 키 통일)
       const accounts = {
-        "God2dog@korea.kr": { password: "25690", page: "sin.html" },
+        "god2dog@korea.kr": { password: "25690", page: "sin.html" },
         "4bigs@korea.kr": { password: "2410080142", page: "sa.html" }
       };
 
       if (accounts[username] && accounts[username].password === password) {
+        // 로그인 성공
+        error.style.display = "none";
         window.location.href = accounts[username].page;
       } else {
+        // 로그인 실패
         error.style.display = "block";
       }
     }
