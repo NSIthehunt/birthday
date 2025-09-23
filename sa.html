@@ -17,19 +17,6 @@
       height: 100vh;
     }
 
-    img {
-      width: 300px; /* 이미지 크기 조절 */
-      margin-top: 20px;
-      border: 2px solid cyan;
-      border-radius: 15px;
-      animation: float 2s ease-in-out infinite alternate;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      100% { transform: translateY(-15px); }
-    }
-
     h1 {
       margin: 0;
       animation: glow 1.5s infinite alternate;
@@ -39,39 +26,48 @@
       0% { text-shadow: 0 0 5px cyan; }
       100% { text-shadow: 0 0 20px cyan; }
     }
+
+    img {
+      width: 300px; 
+      margin-top: 20px;
+      border: 2px solid cyan;
+      border-radius: 15px;
+      transition: transform 0.5s ease; /* 클릭 시 부드럽게 커지도록 */
+      cursor: pointer;
+    }
+
+    /* 클릭 시 커지게 하는 클래스 */
+    .enlarge {
+      transform: scale(1.5);
+    }
   </style>
 </head>
 <body>
-  <h1>🎉 도리의 생일을 축하합니다! 🎉</h1>
+  <h1>🎉 생일 축하합니다! 🎉</h1>
 
   <!-- 오디오 태그 -->
   <audio id="birthdaySong" loop>
     <source src="happy_birthday.mp3" type="audio/mpeg">
-    브라우저가 오디오 태그를 지원하지 않습니다.
   </audio>
 
   <!-- 이미지 태그 -->
-  <img src="party.png" alt="파티 이미지">
+  <img id="partyImg" src="party.png" alt="파티 이미지">
 
   <script>
     const audio = document.getElementById('birthdaySong');
+    const img = document.getElementById('partyImg');
 
-    // 브라우저 자동 재생 우회용: 처음에는 거의 소리 안 나게
-    audio.volume = 0.01;
+    // 볼륨 설정
+    audio.volume = 0.2;
 
     window.addEventListener('load', async () => {
-      try {
-        await audio.play();
-        // 잠시 후 정상 볼륨으로 올리기
-        setTimeout(() => { audio.volume = 0.2; }, 200);
-      } catch(e) {
-        console.log("자동 재생이 차단됨. 클릭 시 재생 가능.");
-      }
+      try { await audio.play(); } 
+      catch(e) { console.log("자동 재생 차단됨. 클릭 시 재생 가능."); }
     });
 
-    // 클릭 시 재생
-    document.body.addEventListener('click', () => {
-      if(audio.paused) audio.play();
+    // 이미지 클릭 시 커지기/원래 크기 토글
+    img.addEventListener('click', () => {
+      img.classList.toggle('enlarge');
     });
   </script>
 </body>
