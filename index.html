@@ -50,10 +50,18 @@
       color: black;
     }
 
+    .message {
+      margin-top: 10px;
+      font-weight: bold;
+      display: none;
+    }
+
     .error {
       color: red;
-      margin-top: 10px;
-      display: none;
+    }
+
+    .success {
+      color: lime; /* 초록색 */
     }
   </style>
 </head>
@@ -65,12 +73,12 @@
   <input type="password" id="password" placeholder="비밀번호">
   <button onclick="login()">접속</button>
 
-  <p id="error" class="error">경고: 아이디 또는 비밀번호 불일치</p>
+  <p id="message" class="message"></p>
 
   <script>
     const usernameInput = document.getElementById("username");
     const passwordInput = document.getElementById("password");
-    const error = document.getElementById("error");
+    const message = document.getElementById("message");
 
     // ✅ Web Audio API 기반 타자 소리
     let audioCtx;
@@ -98,10 +106,9 @@
 
     // 로그인 함수
     function login() {
-      const username = usernameInput.value.trim().toLowerCase(); // 소문자 변환
+      const username = usernameInput.value.trim().toLowerCase();
       const password = passwordInput.value.trim();
 
-      // 계정 데이터 (소문자로 키 통일)
       const accounts = {
         "god2dog@korea.kr": { password: "25690", page: "sin.html" },
         "4bigs@korea.kr": { password: "2410080142", page: "sa.html" }
@@ -109,11 +116,19 @@
 
       if (accounts[username] && accounts[username].password === password) {
         // 로그인 성공
-        error.style.display = "none";
-        window.location.href = accounts[username].page;
+        message.textContent = "접속 성공!";
+        message.className = "message success";
+        message.style.display = "block";
+
+        // 1초 후 페이지 이동
+        setTimeout(() => {
+          window.location.href = accounts[username].page;
+        }, 1000);
       } else {
         // 로그인 실패
-        error.style.display = "block";
+        message.textContent = "경고: 아이디 또는 비밀번호 불일치";
+        message.className = "message error";
+        message.style.display = "block";
       }
     }
   </script>
