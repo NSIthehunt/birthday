@@ -2,95 +2,86 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>NSI Security System</title>
+  <title>SA Page</title>
   <style>
     body {
       margin: 0;
       padding: 0;
       background-color: black;
-      color: cyan;
-      font-family: 'Courier New', monospace;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
       height: 100vh;
-      overflow: hidden; /* 확대 시 스크롤 방지 */
+      overflow: hidden;
+      color: cyan;
+      font-family: 'Courier New', monospace;
+      flex-direction: column;
     }
 
     h1 {
-      margin: 0;
-      animation: glow 1.5s infinite alternate;
+      position: absolute;
+      top: 20px;
+      text-align: center;
+      width: 100%;
       z-index: 10;
-      transition: opacity 0.5s ease; /* 부드럽게 사라지게 */
-    }
-
-    @keyframes glow {
-      0% { text-shadow: 0 0 5px cyan; }
-      100% { text-shadow: 0 0 20px cyan; }
+      font-size: 2em;
+      text-shadow: 0 0 10px cyan;
+      transition: opacity 0.5s ease;
     }
 
     img {
-      width: 300px; 
-      height: auto; /* 비율 유지 */
-      margin-top: 20px;
-      border: 2px solid cyan;
-      border-radius: 15px;
-      transition: all 0.5s ease; /* 부드럽게 확대 */
+      width: 300px;
+      height: auto;
       cursor: pointer;
+      transition: all 0.5s ease;
       z-index: 5;
+      border: 2px solid cyan;
+      border-radius: 10px;
     }
 
-    /* 클릭 시 화면 꽉 차게 확대 */
     .fullscreen {
       position: fixed;
       top: 50%;
       left: 50%;
-      width: 90vw;      /* 화면 가로 90% */
-      height: auto;      /* 원본 비율 유지 */
-      max-height: 90vh;  /* 화면 세로 90% */
       transform: translate(-50%, -50%);
-      border-radius: 0;
-      border: none;
+      max-width: 90vw;
+      max-height: 90vh;
+      width: auto;
+      height: auto;
       z-index: 15;
-    }
-
-    /* 글자 숨기기 */
-    .hidden {
-      opacity: 0;
+      border: none;
+      border-radius: 0;
     }
   </style>
 </head>
 <body>
-  <h1 id="title">🎉 생일 축하합니다! 🎉</h1>
+  <h1 id="title">SA Page</h1>
+  <img id="mainImg" src="party.png" alt="파티 이미지">
 
+  <!-- 오디오 자동 재생 -->
   <audio id="birthdaySong" loop>
     <source src="happy_birthday.mp3" type="audio/mpeg">
   </audio>
 
-  <img id="partyImg" src="party.png" alt="파티 이미지">
-
   <script>
-    const audio = document.getElementById('birthdaySong');
-    const img = document.getElementById('partyImg');
+    const img = document.getElementById('mainImg');
     const title = document.getElementById('title');
+    const audio = document.getElementById('birthdaySong');
 
-    // 볼륨 설정
-    audio.volume = 0.1;
-
+    // 자동 재생
     window.addEventListener('load', async () => {
-      try { await audio.play(); } 
-      catch(e) { console.log("자동 재생 차단됨. 클릭 시 재생 가능."); }
+      try {
+        await audio.play();
+        audio.volume = 0.3; // 볼륨 조절
+      } catch (e) {
+        console.log("자동 재생 차단됨. 클릭 시 재생 가능.");
+      }
     });
 
-    // 이미지 클릭 시 확대/축소 + 글자 숨기기/보이기
+    // 이미지 클릭 시 확대/축소 + 글자 숨김/보임
     img.addEventListener('click', () => {
       const isFullscreen = img.classList.toggle('fullscreen');
-      if(isFullscreen) {
-        title.classList.add('hidden'); // 글자 숨기기
-      } else {
-        title.classList.remove('hidden'); // 글자 다시 보이기
-      }
+      title.style.opacity = isFullscreen ? 0 : 1;
     });
   </script>
 </body>
