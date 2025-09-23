@@ -68,36 +68,36 @@
 
   <audio id="typeSound" src="https://www.soundjay.com/button/beep-07.wav"></audio>
 
-  <script>
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
-    const typeSound = document.getElementById("typeSound");
+ <script>
+  const usernameInput = document.getElementById("username");
+  const passwordInput = document.getElementById("password");
+  const typeSound = document.getElementById("typeSound");
+  const error = document.getElementById("error");
 
-    // 입력 시 타자 소리
-    function playTypeSound() {
-      typeSound.currentTime = 0;
-      typeSound.play();
+  // 입력 시 타자 소리
+  function playTypeSound() {
+    typeSound.currentTime = 0;
+    typeSound.play().catch(err => {
+      console.warn("사운드 차단:", err);
+    });
+  }
+  usernameInput.addEventListener("input", playTypeSound);
+  passwordInput.addEventListener("input", playTypeSound);
+
+  function login() {
+    const username = usernameInput.value.trim().toLowerCase(); // 소문자 변환
+    const password = passwordInput.value.trim(); // 공백 제거
+
+    // 계정 데이터
+    const accounts = {
+      "sin": { password: "1234", page: "sin.html" },
+      "sa": { password: "5678", page: "sa.html" }
+    };
+
+    if (accounts[username] && accounts[username].password === password) {
+      window.location.href = accounts[username].page;
+    } else {
+      error.style.display = "block";
     }
-    usernameInput.addEventListener("input", playTypeSound);
-    passwordInput.addEventListener("input", playTypeSound);
-
-    function login() {
-      const username = usernameInput.value.trim();
-      const password = passwordInput.value;
-      const error = document.getElementById("error");
-
-      // 계정 데이터
-      const accounts = {
-        "sin": { password: "1234", page: "sin.html" },
-        "sa": { password: "5678", page: "sa.html" }
-      };
-
-      if (accounts[username] && accounts[username].password === password) {
-        window.location.href = accounts[username].page; // 로그인 성공 시 해당 페이지 이동
-      } else {
-        error.style.display = "block"; // 에러 메시지 표시
-      }
-    }
-  </script>
-</body>
-</html>
+  }
+</script>
