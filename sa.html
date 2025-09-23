@@ -2,7 +2,9 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>사태수님 접속 완료</title>
+  <title>SA Page</title>
+  <!-- 구글 폰트 나눔고딕 불러오기 -->
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -14,20 +16,29 @@
       height: 100vh;
       overflow: hidden;
       color: cyan;
-      font-family: 'Courier New', monospace;
+      font-family: 'Nanum Gothic', '나눔고딕', monospace;
       flex-direction: column;
       position: relative;
     }
 
     h1 {
+      font-family: 'Nanum Gothic', '나눔고딕', monospace;
       position: absolute;
-      top: 20px;           /* 페이지 상단 고정 */
+      top: 20px;
       text-align: center;
       width: 100%;
       z-index: 10;
       font-size: 2em;
       text-shadow: 0 0 10px cyan;
+      opacity: 1;
+      animation: pulse 1s infinite alternate;
       transition: opacity 0.5s ease;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
 
     img {
@@ -73,7 +84,7 @@
     window.addEventListener('load', async () => {
       try {
         await audio.play();
-        audio.volume = 0.1;
+        audio.volume = 0.3;
       } catch (e) {
         console.log("자동 재생 차단됨. 클릭 시 재생 가능.");
       }
@@ -82,7 +93,13 @@
     // 이미지 클릭 시 확대/축소 + 글자 토글
     img.addEventListener('click', () => {
       const isFullscreen = img.classList.toggle('fullscreen');
-      title.style.opacity = isFullscreen ? 0 : 1; // 확대 시 글자 숨김, 축소 시 글자 보임
+      if (isFullscreen) {
+        title.style.opacity = 0;      // 확대 시 글자 숨김
+        title.style.animationPlayState = 'paused';
+      } else {
+        title.style.opacity = 1;      // 축소 시 글자 다시 표시
+        title.style.animationPlayState = 'running';
+      }
     });
   </script>
 </body>
