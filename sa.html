@@ -15,11 +15,13 @@
       align-items: center;
       flex-direction: column;
       height: 100vh;
+      overflow: hidden; /* 확대 시 스크롤 방지 */
     }
 
     h1 {
       margin: 0;
       animation: glow 1.5s infinite alternate;
+      z-index: 10;
     }
 
     @keyframes glow {
@@ -29,28 +31,36 @@
 
     img {
       width: 300px; 
+      height: auto; /* 비율 유지 */
       margin-top: 20px;
       border: 2px solid cyan;
       border-radius: 15px;
-      transition: transform 0.5s ease; /* 클릭 시 부드럽게 커지도록 */
+      transition: all 0.5s ease; /* 부드럽게 확대 */
       cursor: pointer;
+      z-index: 5;
     }
 
-    /* 클릭 시 커지게 하는 클래스 */
-    .enlarge {
-      transform: scale(1.5);
+    /* 클릭 시 화면에 꽉 차게 확대 */
+    .fullscreen {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 90vw; /* 화면 가로 90% */
+      height: auto; /* 비율 유지 */
+      max-height: 90vh; /* 화면 세로 90% */
+      transform: translate(-50%, -50%);
+      border-radius: 0;
+      border: none;
     }
   </style>
 </head>
 <body>
-  <h1>🎉 생일 축하합니다! 🎉</h1>
+  <h1>환영합니다! 🎉</h1>
 
-  <!-- 오디오 태그 -->
   <audio id="birthdaySong" loop>
     <source src="happy_birthday.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- 이미지 태그 -->
   <img id="partyImg" src="party.png" alt="파티 이미지">
 
   <script>
@@ -65,9 +75,9 @@
       catch(e) { console.log("자동 재생 차단됨. 클릭 시 재생 가능."); }
     });
 
-    // 이미지 클릭 시 커지기/원래 크기 토글
+    // 이미지 클릭 시 화면 꽉 차게 토글
     img.addEventListener('click', () => {
-      img.classList.toggle('enlarge');
+      img.classList.toggle('fullscreen');
     });
   </script>
 </body>
