@@ -22,6 +22,7 @@
       margin: 0;
       animation: glow 1.5s infinite alternate;
       z-index: 10;
+      transition: opacity 0.5s ease; /* 부드럽게 사라지게 */
     }
 
     @keyframes glow {
@@ -40,22 +41,28 @@
       z-index: 5;
     }
 
-    /* 클릭 시 화면에 꽉 차게 확대 */
+    /* 클릭 시 화면 꽉 차게 확대 */
     .fullscreen {
       position: fixed;
       top: 50%;
       left: 50%;
-      width: 90vw; /* 화면 가로 90% */
-      height: auto; /* 비율 유지 */
-      max-height: 90vh; /* 화면 세로 90% */
+      width: 90vw;      /* 화면 가로 90% */
+      height: auto;      /* 원본 비율 유지 */
+      max-height: 90vh;  /* 화면 세로 90% */
       transform: translate(-50%, -50%);
       border-radius: 0;
       border: none;
+      z-index: 15;
+    }
+
+    /* 글자 숨기기 */
+    .hidden {
+      opacity: 0;
     }
   </style>
 </head>
 <body>
-  <h1>🎉 생일 축하합니다! 🎉</h1>
+  <h1 id="title">🎉 생일 축하합니다! 🎉</h1>
 
   <audio id="birthdaySong" loop>
     <source src="happy_birthday.mp3" type="audio/mpeg">
@@ -66,6 +73,7 @@
   <script>
     const audio = document.getElementById('birthdaySong');
     const img = document.getElementById('partyImg');
+    const title = document.getElementById('title');
 
     // 볼륨 설정
     audio.volume = 0.1;
@@ -75,9 +83,14 @@
       catch(e) { console.log("자동 재생 차단됨. 클릭 시 재생 가능."); }
     });
 
-    // 이미지 클릭 시 화면 꽉 차게 토글
+    // 이미지 클릭 시 확대/축소 + 글자 숨기기/보이기
     img.addEventListener('click', () => {
-      img.classList.toggle('fullscreen');
+      const isFullscreen = img.classList.toggle('fullscreen');
+      if(isFullscreen) {
+        title.classList.add('hidden'); // 글자 숨기기
+      } else {
+        title.classList.remove('hidden'); // 글자 다시 보이기
+      }
     });
   </script>
 </body>
