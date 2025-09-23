@@ -2,22 +2,20 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>SA Page</title>
+  <title>NSI Security System</title>
   <style>
     body {
       margin: 0;
       padding: 0;
       background-color: black;
+      color: cyan;
+      font-family: 'Courier New', monospace;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      overflow: hidden;
-      color: cyan;
-      font-family: 'Courier New', monospace;
       flex-direction: column;
+      height: 100vh;
     }
-
     h1 {
       position: absolute;
       top: 20px;
@@ -52,9 +50,25 @@
       border: none;
       border-radius: 0;
     }
+ 
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-15px); }
+    }
+
+    h1 {
+      margin: 0;
+      animation: glow 1.5s infinite alternate;
+    }
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 5px cyan; }
+      100% { text-shadow: 0 0 20px cyan; }
+    }
   </style>
 </head>
 <body>
+  <h1>🎉 생일 축하합니다! 🎉</h1>
   <h1 id="title">SA Page</h1>
   <img id="mainImg" src="party.png" alt="파티 이미지">
 
