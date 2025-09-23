@@ -2,20 +2,23 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>NSI Security System</title>
+  <title>SA Page</title>
   <style>
     body {
       margin: 0;
       padding: 0;
       background-color: black;
-      color: cyan;
-      font-family: 'Courier New', monospace;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
       height: 100vh;
+      overflow: hidden;
+      color: cyan;
+      font-family: 'Courier New', monospace;
+      flex-direction: column;
+      position: relative;
     }
+
     h1 {
       position: absolute;
       top: 20px;
@@ -25,6 +28,21 @@
       font-size: 2em;
       text-shadow: 0 0 10px cyan;
       transition: opacity 0.5s ease;
+    }
+
+    .birthday-text {
+      position: absolute;
+      color: yellow;
+      font-size: 3em;
+      text-shadow: 0 0 10px red, 0 0 20px yellow;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 1; /* 기본 표시 */
+      transition: opacity 0.5s ease;
+      z-index: 20;
+      pointer-events: none;
+      white-space: nowrap;
     }
 
     img {
@@ -50,27 +68,12 @@
       border: none;
       border-radius: 0;
     }
- 
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      100% { transform: translateY(-15px); }
-    }
-
-    h1 {
-      margin: 0;
-      animation: glow 1.5s infinite alternate;
-    }
-
-    @keyframes glow {
-      0% { text-shadow: 0 0 5px cyan; }
-      100% { text-shadow: 0 0 20px cyan; }
-    }
   </style>
 </head>
 <body>
-  <h1>🎉 생일 축하합니다! 🎉</h1>
-  <h1 id="title">🎉 생일 축하합니다! 🎉</h1>
+  <h1 id="title">SA Page</h1>
   <img id="mainImg" src="party.png" alt="파티 이미지">
+  <div id="birthdayText" class="birthday-text">생일 축하합니다 🎉</div>
 
   <!-- 오디오 자동 재생 -->
   <audio id="birthdaySong" loop>
@@ -80,22 +83,24 @@
   <script>
     const img = document.getElementById('mainImg');
     const title = document.getElementById('title');
+    const birthdayText = document.getElementById('birthdayText');
     const audio = document.getElementById('birthdaySong');
 
     // 자동 재생
     window.addEventListener('load', async () => {
       try {
         await audio.play();
-        audio.volume = 0.1; // 볼륨 조절
+        audio.volume = 0.3;
       } catch (e) {
         console.log("자동 재생 차단됨. 클릭 시 재생 가능.");
       }
     });
 
-    // 이미지 클릭 시 확대/축소 + 글자 숨김/보임
+    // 이미지 클릭 시 확대/축소 + 글자 숨김/보임 + 생일문구 표시 토글
     img.addEventListener('click', () => {
       const isFullscreen = img.classList.toggle('fullscreen');
       title.style.opacity = isFullscreen ? 0 : 1;
+      birthdayText.style.opacity = isFullscreen ? 0 : 1; // 확대 시 사라짐, 축소 시 다시 보임
     });
   </script>
 </body>
