@@ -65,13 +65,15 @@
       border-radius: 0;
     }
 
-    /* ✅ 커서 따라다니는 작은 이미지 */
-    #cursorImg {
+    /* ✅ 커서 따라다니는 이미지 */
+    .cursor-image {
       position: fixed;
       width: 40px;
       height: 40px;
-      pointer-events: none; /* 클릭 방해 안 하도록 */
-      z-index: 100;
+      pointer-events: none;
+      border: none;     /* 테두리 없음 */
+      opacity: 0.7;     /* 투명 효과 */
+      z-index: 9999;
     }
   </style>
 </head>
@@ -79,13 +81,13 @@
   <h1 id="title">🎉 생일 축하합니다 🎉</h1>
   <img id="mainImg" src="party.png" alt="파티 이미지">
 
-  <!-- 커서 이미지 -->
-  <img id="cursorImg" src="cursor.png" alt="커서 장식">
-
   <!-- 오디오 자동 재생 -->
   <audio id="birthdaySong" loop>
     <source src="happy_birthday.mp3" type="audio/mpeg">
   </audio>
+
+  <!-- ✅ 커서 따라다니는 이미지 -->
+  <img id="cursorImg" class="cursor-image" src="cursor.png" alt="커서 이미지">
 
   <script>
     const img = document.getElementById('mainImg');
@@ -107,18 +109,18 @@
     img.addEventListener('click', () => {
       const isFullscreen = img.classList.toggle('fullscreen');
       if (isFullscreen) {
-        title.style.opacity = 0;      // 확대 시 글자 숨김
+        title.style.opacity = 0;      
         title.style.animationPlayState = 'paused';
       } else {
-        title.style.opacity = 1;      // 축소 시 글자 다시 표시
+        title.style.opacity = 1;      
         title.style.animationPlayState = 'running';
       }
     });
 
-    // 마우스 움직임 따라다니기 (왼쪽 아래 20px)
+    // ✅ 마우스 커서 따라다니는 이미지
     document.addEventListener('mousemove', (e) => {
-      cursorImg.style.left = (e.pageX + 20) + 'px';
-      cursorImg.style.top = (e.pageY + 20) + 'px';
+      cursorImg.style.left = (e.clientX + 20) + 'px'; // 살짝 오른쪽
+      cursorImg.style.top = (e.clientY + 20) + 'px';  // 살짝 아래
     });
   </script>
 </body>
