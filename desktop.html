@@ -83,23 +83,31 @@
   </div>
 
   <script>
-    // NSI 아이콘 더블클릭: 1초 딜레이 후 이동
+    // 공통 더블클릭 새 창 열기
+    function openInNewWindow(url) {
+      window.open(
+        url,
+        "_blank",
+        "width=1024,height=768,resizable=yes,scrollbars=yes"
+      );
+    }
+
+    // Chrome 아이콘 더블클릭
+    const chromeIcon = document.getElementById("chromeIcon");
+    chromeIcon.addEventListener("dblclick", () => {
+      chromeIcon.style.opacity = 0.6; // 시각적 피드백
+      setTimeout(() => {
+        openInNewWindow("https://www.google.com");
+      }, 1000); // 1초 딜레이
+    });
+
+    // NSI 아이콘 더블클릭
     const nsiIcon = document.getElementById("nsiIcon");
     nsiIcon.addEventListener("dblclick", () => {
       nsiIcon.style.opacity = 0.6; // 시각적 피드백
       setTimeout(() => {
-        window.location.href = "./nsi.html";
+        openInNewWindow("./nsi.html");
       }, 1000); // 1초 딜레이
-    });
-
-    // Chrome 아이콘 더블클릭: 새 창으로 열기
-    const chromeIcon = document.getElementById("chromeIcon");
-    chromeIcon.addEventListener("dblclick", () => {
-      window.open(
-        "https://www.google.com",
-        "_blank",
-        "width=1024,height=768,resizable=yes,scrollbars=yes"
-      );
     });
 
     // 드래그 기능
