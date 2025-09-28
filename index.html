@@ -2,16 +2,15 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>window login - Windows Style with Splash</title>
+  <title>Login with Splash</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    /* --- 공통 스타일 --- */
     body {
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: black;
       color: white;
-      overflow-x: hidden;
     }
 
     /* --- 스플래시 화면 --- */
@@ -20,9 +19,9 @@
       top:0; left:0;
       width:100vw;
       height:100vh;
-      background-color: black;
+      background-color: black; /* 검은 배경 */
       z-index: 9999;
-      overflow-y: auto; /* 세로 스크롤 허용 */
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -31,8 +30,8 @@
     }
 
     #splash img {
-      width: 1000px;
-      max-width: 100vw;
+      width: 1000px; /* 가로 고정 */
+      height: auto;
       margin-bottom: 20px;
       cursor: pointer;
     }
@@ -44,9 +43,6 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      background: black;
-      font-family: 'Segoe UI', sans-serif;
-      color: white;
     }
 
     .bg {
@@ -106,7 +102,7 @@
       font-size: 0.9em;
     }
 
-    /* 모바일 전용 이미지 기본 숨김 */
+    /* --- 모바일 전용 이미지 --- */
     .mobile-only {
       display: none;
       position: fixed;
@@ -114,16 +110,14 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      object-fit: cover;
-      z-index: 9999;
+      object-fit: cover; 
+      z-index: 9999; 
     }
 
-    /* 모바일 화면일 때 */
     @media (max-width: 1024px) {
       .mobile-only {
         display: block;
       }
-
       .bg, .login-box {
         display: none !important;
       }
@@ -131,48 +125,48 @@
   </style>
 </head>
 <body>
-  <!-- 스플래시 화면 -->
+  <!-- ===== 스플래시 화면 ===== -->
   <div id="splash">
     <img src="splash1.png" alt="스플래시 이미지 1">
     <img id="splash2" src="splash2.png" alt="스플래시 이미지 2 (더블클릭시 로그인)">
   </div>
 
-  <!-- 로그인 화면 -->
+  <!-- ===== 로그인 화면 ===== -->
   <div id="loginContent">
     <div class="bg"></div>
     <div class="login-box">
       <img src="user-icon.png" alt="User Icon" class="user-icon">
       <div class="username">TAESU</div>
-
       <input type="password" id="password" placeholder="FIN">
       <p id="error" class="error">암호가 올바르지 않습니다.</p>
       <p id="hint" class="hint">힌트: 생년월일</p>
     </div>
+    <!-- 모바일 전용 이미지 -->
+    <img src="mobile_only.png" alt="모바일 전용 이미지" class="mobile-only">
   </div>
 
-  <!-- 모바일 전용 이미지 -->
-  <img src="mobile_only.png" alt="모바일 전용 이미지" class="mobile-only">
-
   <script>
-    const splash2 = document.getElementById("splash2");
     const splash = document.getElementById("splash");
+    const splash2 = document.getElementById("splash2");
     const loginContent = document.getElementById("loginContent");
+
     const passwordInput = document.getElementById("password");
     const error = document.getElementById("error");
     const hint = document.getElementById("hint");
     const bg = document.querySelector(".bg");
+
     const bootSound = new Audio("boot.mp3");
     bootSound.volume = 0.3;
 
     let failCount = 0;
 
-    // 스플래시 두 번째 이미지 더블클릭 -> 로그인 페이지 표시
+    // 스플래시 두 번째 이미지 더블클릭 -> 로그인 화면
     splash2.addEventListener("dblclick", () => {
       splash.style.display = "none";
       loginContent.style.display = "flex";
     });
 
-    // 로그인 기능
+    // 로그인 비밀번호 체크
     passwordInput.addEventListener("keydown", function(event) {
       if (event.key === "Enter") {
         const password = passwordInput.value.trim();
@@ -191,7 +185,6 @@
         } else {
           failCount++;
           error.style.display = "block";
-
           if (failCount >= 5) {
             hint.textContent = "힌트: https://successful-range-83e.notion.site/15b58b3c3c9f8058a1c8d00568c93814";
           } else {
