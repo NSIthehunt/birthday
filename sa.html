@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>SA Page</title>
+  <!-- 구글 폰트 나눔고딕 불러오기 -->
   <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
   <style>
     body {
@@ -10,6 +11,7 @@
       padding: 0;
       font-family: 'Nanum Gothic', '나눔고딕', monospace;
       overflow: hidden;
+      background-color: black;
     }
 
     /* --- 스플래시 화면 --- */
@@ -46,9 +48,9 @@
       100% { opacity: 1; text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 20px cyan,0 0 30px cyan,0 0 40px cyan,0 0 55px cyan,0 0 75px cyan; }
     }
 
-    /* --- 기존 생일 페이지 --- */
+    /* --- 메인 콘텐츠 --- */
     #mainContent {
-      display: none; /* 처음에는 숨김 */
+      display: none; /* 초기 숨김 */
       margin:0;
       padding:0;
       background-color: black;
@@ -102,17 +104,22 @@
       z-index: 15;
       border: none;
       border-radius: 0;
+      transition: transform 0.5s ease;
     }
 
-    .cursor-image {
+    /* --- 커서 이미지 --- */
+    #cursorImg {
       position: fixed;
-      width: 140px;
-      height: 140px;
+      width: 140px !important;
+      height: 140px !important;
       pointer-events: none;
-      border: none;
-      opacity: 1;
+      border: none !important;
+      border-radius: 0;
+      opacity: 1 !important;
       z-index: 9999;
+      transition: none;
     }
+
   </style>
 </head>
 <body>
@@ -121,15 +128,17 @@
     <h1>일이나 해 이 새끼야!</h1>
   </div>
 
-  <!-- 기존 생일 페이지 -->
+  <!-- 메인 콘텐츠 -->
   <div id="mainContent">
     <h1 id="title">🎉 생일 축하합니다 🎉</h1>
     <img id="mainImg" src="party.png" alt="파티 이미지">
     <audio id="birthdaySong" loop>
       <source src="happy_birthday.mp3" type="audio/mpeg">
     </audio>
-    <img id="cursorImg" class="cursor-image" src="cursor.png" alt="커서 이미지">
   </div>
+
+  <!-- 커서 이미지는 항상 body 바로 아래 -->
+  <img id="cursorImg" src="cursor.png" alt="커서 이미지">
 
   <script>
     const splash = document.getElementById('splash');
@@ -139,36 +148,5 @@
     const audio = document.getElementById('birthdaySong');
     const cursorImg = document.getElementById('cursorImg');
 
-    // 3초 뒤 스플래시 제거 & 본 콘텐츠 표시
-    setTimeout(async () => {
-      splash.style.display = 'none';
-      mainContent.style.display = 'flex';
-
-      try {
-        await audio.play();
-        audio.volume = 0.1;
-      } catch(e) {
-        console.log("자동 재생 차단됨");
-      }
-    }, 3000);
-
-    // 이미지 클릭 시 확대/축소 + 글자 토글
-    img.addEventListener('click', () => {
-      const isFullscreen = img.classList.toggle('fullscreen');
-      if (isFullscreen) {
-        title.style.opacity = 0;      
-        title.style.animationPlayState = 'paused';
-      } else {
-        title.style.opacity = 1;      
-        title.style.animationPlayState = 'running';
-      }
-    });
-
-    // 마우스 커서 따라다니는 이미지
-    document.addEventListener('mousemove', (e) => {
-      cursorImg.style.left = (e.clientX + 20) + 'px';
-      cursorImg.style.top = (e.clientY + 20) + 'px';
-    });
-  </script>
-</body>
-</html>
+    // 3초 뒤 스플래시 제거 & 메인 콘텐츠 표시
+    setTimeout(async (
