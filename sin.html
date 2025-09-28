@@ -56,7 +56,7 @@
       z-index: 15;
       border: none;
       border-radius: 0;
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transition: transform 0.5s ease;
     }
   </style>
 </head>
@@ -98,10 +98,14 @@
         img.src = "abata.png"; // 클릭 후 다른 이미지
         img.classList.add("fullscreen");
         title.style.opacity = 0;
+        img.style.width = "";   // 클릭 후 width 초기화 → 화면 꽉 차게
+        img.style.height = "";
       } else {
         img.src = "bamti.gif"; // 원래 이미지
         img.classList.remove("fullscreen");
         title.style.opacity = 1;
+        img.style.width = "800px"; // 클릭 전 상태로 복원
+        img.style.height = "auto";
       }
     });
   </script>
