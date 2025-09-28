@@ -31,7 +31,7 @@
     }
 
     img {
-      width: 300px;
+      width: 300px; /* 초기 크기 */
       height: auto;
       cursor: pointer;
       z-index: 5;
@@ -40,9 +40,10 @@
 
       /* 초기 투명도 & 트랜지션 설정 */
       opacity: 0;
-      transition: opacity 20s ease, transform 0.5s ease, width 0.5s ease, height 0.5s ease;
+      transition: opacity 20s ease, width 20s ease, transform 0.5s ease, height 0.5s ease;
     }
 
+    /* 클릭 후 전체화면 스타일 */
     .fullscreen {
       position: fixed;
       top: 50%;
@@ -73,7 +74,7 @@
     const title = document.getElementById('title');
     const audio = document.getElementById('birthdaySong');
 
-    // 페이지 로드 후 오디오 재생 & 이미지 서서히 등장
+    // 페이지 로드 후 오디오 재생 & 이미지 서서히 등장 + 커짐
     window.addEventListener('load', async () => {
       try {
         await audio.play();
@@ -84,6 +85,7 @@
 
       setTimeout(() => {
         img.style.opacity = 1;
+        img.style.width = "800px"; // 20초 동안 점점 커짐
       }, 100);
     });
 
