@@ -72,10 +72,37 @@
       display: none;
       font-size: 0.9em;
     }
+
+    /* 모바일 전용 이미지 기본은 숨김 */
+    .mobile-only {
+      display: none;
+      position: fixed;
+      top: 0; 
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover; /* 화면 꽉 채우기 */
+      z-index: 9999;     /* 최상단 */
+    }
+
+    /* 모바일 화면일 때 */
+    @media (max-width: 768px) {
+      .mobile-only {
+        display: block;
+      }
+
+      /* 로그인 화면 요소 숨김 */
+      .bg, .login-box {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="bg"></div>
+
+  <!-- 모바일 전용 이미지 -->
+  <img src="mobile_only.png" alt="모바일 전용 이미지" class="mobile-only">
 
   <div class="login-box">
     <img src="user-icon.png" alt="User Icon" class="user-icon">
@@ -107,7 +134,7 @@
           error.style.display = "none";
           hint.style.display = "none";
 
-          // 부팅음 재생 후 1.8초 뒤 이동
+          // 부팅음 재생 후 1.4초 뒤 이동
           bootSound.play().then(() => {
             setTimeout(() => {
               window.location.href = "desktop.html";
