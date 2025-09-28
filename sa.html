@@ -125,7 +125,7 @@
 <body>
   <!-- 스플래시 화면 -->
   <div id="splash">
-    <h1>얌전히 기다려 이 새끼야!</h1>
+    <h1>일이나 해 이 새끼야!</h1>
   </div>
 
   <!-- 메인 콘텐츠 -->
@@ -149,4 +149,35 @@
     const cursorImg = document.getElementById('cursorImg');
 
     // 3초 뒤 스플래시 제거 & 메인 콘텐츠 표시
-    setTimeout(async (
+    setTimeout(async () => {
+      splash.style.display = 'none';
+      mainContent.style.display = 'flex';
+
+      try {
+        await audio.play();
+        audio.volume = 0.1;
+      } catch(e) {
+        console.log("자동 재생 차단됨");
+      }
+    }, 3000);
+
+    // 이미지 클릭 시 확대/축소 + 글자 토글
+    img.addEventListener('click', () => {
+      const isFullscreen = img.classList.toggle('fullscreen');
+      if (isFullscreen) {
+        title.style.opacity = 0;      
+        title.style.animationPlayState = 'paused';
+      } else {
+        title.style.opacity = 1;      
+        title.style.animationPlayState = 'running';
+      }
+    });
+
+    // 마우스 커서 따라다니는 이미지
+    document.addEventListener('mousemove', (e) => {
+      cursorImg.style.left = (e.clientX + 20) + 'px';
+      cursorImg.style.top = (e.clientY + 20) + 'px';
+    });
+  </script>
+</body>
+</html>
