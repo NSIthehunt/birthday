@@ -3,26 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <title>SA Page</title>
-  <!-- 구글 폰트 나눔고딕 불러오기 -->
   <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       padding: 0;
-      background-color: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-      color: cyan;
       font-family: 'Nanum Gothic', '나눔고딕', monospace;
-      flex-direction: column;
-      position: relative;
+      overflow: hidden;
     }
 
-    h1 {
-      font-family: 'Nanum Gothic', '나눔고딕', monospace;
+    /* --- 스플래시 화면 --- */
+    #splash {
+      position: fixed;
+      top:0; left:0;
+      width:100vw;
+      height:100vh;
+      background-color:black;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      z-index:9999;
+    }
+
+    #splash h1 {
+      font-size: 4em;
+      color: white;
+      text-align: center;
+      text-shadow:
+        0 0 5px #fff,
+        0 0 10px #fff,
+        0 0 20px cyan,
+        0 0 30px cyan,
+        0 0 40px cyan,
+        0 0 55px cyan,
+        0 0 75px cyan;
+      animation: flicker 1.5s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 1; text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 20px cyan,0 0 30px cyan,0 0 40px cyan,0 0 55px cyan,0 0 75px cyan; }
+      50% { opacity: 0.8; text-shadow: 0 0 10px #fff,0 0 15px #fff,0 0 30px cyan,0 0 40px cyan,0 0 50px cyan,0 0 65px cyan,0 0 85px cyan; }
+      100% { opacity: 1; text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 20px cyan,0 0 30px cyan,0 0 40px cyan,0 0 55px cyan,0 0 75px cyan; }
+    }
+
+    /* --- 기존 생일 페이지 --- */
+    #mainContent {
+      display: none; /* 처음에는 숨김 */
+      margin:0;
+      padding:0;
+      background-color: black;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      flex-direction: column;
+      position: relative;
+      color: cyan;
+    }
+
+    #mainContent h1 {
       position: absolute;
       top: 20px;
       text-align: center;
@@ -41,7 +80,7 @@
       100% { transform: scale(1); }
     }
 
-    img {
+    #mainContent img {
       width: 450px;
       height: auto;
       cursor: pointer;
@@ -65,45 +104,53 @@
       border-radius: 0;
     }
 
-    /* ✅ 커서 따라다니는 이미지 */
     .cursor-image {
       position: fixed;
       width: 140px;
       height: 140px;
       pointer-events: none;
-      border: none;     /* 테두리 없음 */
-      opacity: 1;     /* 투명 효과 */
+      border: none;
+      opacity: 1;
       z-index: 9999;
     }
   </style>
 </head>
 <body>
-  <h1 id="title">🎉 생일 축하합니다 🎉</h1>
-  <img id="mainImg" src="party.png" alt="파티 이미지">
+  <!-- 스플래시 화면 -->
+  <div id="splash">
+    <h1>일이나 해 이 새끼야!</h1>
+  </div>
 
-  <!-- 오디오 자동 재생 -->
-  <audio id="birthdaySong" loop>
-    <source src="happy_birthday.mp3" type="audio/mpeg">
-  </audio>
-
-  <!-- ✅ 커서 따라다니는 이미지 -->
-  <img id="cursorImg" class="cursor-image" src="cursor.png" alt="커서 이미지">
+  <!-- 기존 생일 페이지 -->
+  <div id="mainContent">
+    <h1 id="title">🎉 생일 축하합니다 🎉</h1>
+    <img id="mainImg" src="party.png" alt="파티 이미지">
+    <audio id="birthdaySong" loop>
+      <source src="happy_birthday.mp3" type="audio/mpeg">
+    </audio>
+    <img id="cursorImg" class="cursor-image" src="cursor.png" alt="커서 이미지">
+  </div>
 
   <script>
+    const splash = document.getElementById('splash');
+    const mainContent = document.getElementById('mainContent');
     const img = document.getElementById('mainImg');
     const title = document.getElementById('title');
     const audio = document.getElementById('birthdaySong');
     const cursorImg = document.getElementById('cursorImg');
 
-    // 자동 재생
-    window.addEventListener('load', async () => {
+    // 3초 뒤 스플래시 제거 & 본 콘텐츠 표시
+    setTimeout(async () => {
+      splash.style.display = 'none';
+      mainContent.style.display = 'flex';
+
       try {
         await audio.play();
         audio.volume = 0.1;
-      } catch (e) {
-        console.log("자동 재생 차단됨. 클릭 시 재생 가능.");
+      } catch(e) {
+        console.log("자동 재생 차단됨");
       }
-    });
+    }, 3000);
 
     // 이미지 클릭 시 확대/축소 + 글자 토글
     img.addEventListener('click', () => {
@@ -117,10 +164,10 @@
       }
     });
 
-    // ✅ 마우스 커서 따라다니는 이미지
+    // 마우스 커서 따라다니는 이미지
     document.addEventListener('mousemove', (e) => {
-      cursorImg.style.left = (e.clientX + 20) + 'px'; // 살짝 오른쪽
-      cursorImg.style.top = (e.clientY + 20) + 'px';  // 살짝 아래
+      cursorImg.style.left = (e.clientX + 20) + 'px';
+      cursorImg.style.top = (e.clientY + 20) + 'px';
     });
   </script>
 </body>
